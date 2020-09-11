@@ -36,6 +36,9 @@ abstract class DomainEvent extends Event
      */
     private $aggregateId;
 
+    /**
+     * @var int
+     */
     private $version;
 
     /**

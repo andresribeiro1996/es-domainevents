@@ -7,7 +7,6 @@ use App\house\domain\house\command\CreateHouseCommand;
 use App\house\domain\house\House;
 use App\house\domain\house\HouseId;
 use App\house\DomainEventPublisher;
-use App\house\persistence\inMemory\HouseLoader;
 use App\house\persistence\inMemory\HouseRepositoryInMemory;
 use App\robber\application\RobberApplicationService;
 use App\robber\persistence\inMemory\RobberRepositoryInMemory;
