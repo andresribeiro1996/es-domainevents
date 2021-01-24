@@ -6,8 +6,19 @@ namespace App\robber\domain\robber\command;
 
 class AssaultHouseCommand
 {
+    /**
+     * @var int
+     */
     private $robberId;
+
+    /**
+     * @var int
+     */
     private $houseId;
+
+    /**
+     * @var int
+     */
     private $robberLevel;
 
     /**
@@ -16,33 +27,24 @@ class AssaultHouseCommand
      * @param $houseId
      * @param $robberLevel
      */
-    public function __construct($robberId, $houseId, $robberLevel)
+    public function __construct(int $robberId, int $houseId, int $robberLevel)
     {
         $this->robberId = $robberId;
         $this->houseId = $houseId;
         $this->robberLevel = $robberLevel;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getRobberId()
+    public function getRobberId(): int
     {
         return $this->robberId;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getHouseId()
+    public function getHouseId(): int
     {
         return $this->houseId;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getRobberLevel()
+    public function getRobberLevel(): int
     {
         return $this->robberLevel;
     }

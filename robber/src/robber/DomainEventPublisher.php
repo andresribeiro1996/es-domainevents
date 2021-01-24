@@ -2,22 +2,22 @@
 
 namespace App\robber;
 
-
-use App\EventBusInMemory;
 use App\robber\application\EventForwardingService;
 use App\robber\domain\DomainEvent;
 use App\robber\domain\PublishedGlobalEvent;
-use App\robber\infrastructure\inMemory\DomainEventProducerInMemory;
 use App\robber\infrastructure\message\DomainEventProducerInKafka;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class DomainEventPublisher extends EventDispatcher
 {
-    private static $instance = null;
+    /**
+     * @var DomainEventPublisher
+     */
+    private static $instance;
 
-    public static function instance(): DomainEventPublisher {
-        if (self::$instance == null)
+    public static function instance(): self {
+        if (!isset(self::$instance))
         {
             self::$instance = new DomainEventPublisher();
             self::$instance->addSubscriber(

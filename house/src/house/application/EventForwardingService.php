@@ -4,6 +4,7 @@
 namespace App\house\application;
 
 use App\house\domain\DomainEvent;
+use App\house\domain\house\event\publish\AssaultedHouseSucceededEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class EventForwardingService implements EventSubscriberInterface
@@ -20,7 +21,9 @@ class EventForwardingService implements EventSubscriberInterface
 
     public static function getSubscribedEvents()
     {
-        return [];
+        return [
+            DomainEvent::SCOPE_GLOBAL . AssaultedHouseSucceededEvent::NAME => 'onPublishedGlobalEvent',
+        ];
     }
 
     public function onPublishedGlobalEvent(DomainEvent $event): void

@@ -8,9 +8,9 @@ use Symfony\Contracts\EventDispatcher\Event;
 
 abstract class DomainEvent extends Event
 {
-    protected const SCOPE_LOCAL = 'local';
+    public const SCOPE_LOCAL = 'local';
 
-    protected const SCOPE_GLOBAL = 'global';
+    public const SCOPE_GLOBAL = 'global';
 
     private const BC_NAME = 'house';
 
@@ -73,6 +73,10 @@ abstract class DomainEvent extends Event
             'version' => $this->version,
             'occurred_on' => $this->occurredOn->format('Y-m-d H:i:s')
         ];
+    }
+
+    public function getBoundedContextName(): string {
+        return self::BC_NAME;
     }
 
     public function getName(): string

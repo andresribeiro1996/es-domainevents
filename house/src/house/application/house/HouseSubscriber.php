@@ -36,6 +36,7 @@ class HouseSubscriber implements EventSubscriberInterface
 
     public function onAssaultedHouse(AssaultedHouseEvent $event): void
     {
+        var_dump('onAssaultHouse');
         $houseEventStream = $this->houseRepository->loadEventStream(new HouseId($event->getHouseId()));
         $house = House::new();
         $house->apply($houseEventStream);

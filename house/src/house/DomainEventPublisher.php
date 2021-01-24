@@ -5,7 +5,7 @@ namespace App\house;
 use App\house\application\EventForwardingService;
 use App\house\domain\DomainEvent;
 use App\house\domain\PublishedGlobalEvent;
-use App\house\infrastructure\message\DomainEventConsumerInKafka;
+use App\house\infrastructure\message\DomainEventProducerInKafka;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
@@ -21,7 +21,11 @@ class DomainEventPublisher extends EventDispatcher
         if (self::$instance == null)
         {
             self::$instance = new DomainEventPublisher();
-            self::$instance->addSubscriber(new EventForwardingService(new DomainEventConsumerInKafka()));
+            self::$instance->addSubscriber(
+                new EventForwardingService(
+                    new DomainEventProducerInKafka()
+                )
+            );
         }
 
         return self::$instance;
@@ -33,6 +37,8 @@ class DomainEventPublisher extends EventDispatcher
     public function publish(array $eventStream): void {
 
         foreach ($eventStream as $domainEvent) {
+            var_dump($domainEvent->getName());
+            var_dump($domainEvent->isGlobalEvent());
             $this->dispatch($domainEvent, $domainEvent->getName());
 
             if($domainEvent->isGlobalEvent()) {

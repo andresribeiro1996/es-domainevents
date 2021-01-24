@@ -2,7 +2,9 @@
 
 namespace App\house\infrastructure\message;
 
-use App\robber\application\DomainEventConsumer;
+use App\house\application\DomainEventConsumer;
+use App\house\domain\DomainEventFactory;
+use App\house\DomainEventPublisher;
 use RdKafka;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -13,7 +15,7 @@ class DomainEventConsumerInKafka extends Command implements DomainEventConsumer
 {
     protected static $defaultName = 'kafka:domain-event-consumer';
 
-    private const CONSUMABLE_TOPICS = ['house_house'];
+    private const CONSUMABLE_TOPICS = ['robber_robber'];
 
     /**
      * @var RdKafka\KafkaConsumer
@@ -33,7 +35,7 @@ class DomainEventConsumerInKafka extends Command implements DomainEventConsumer
 
         // Configure the group.id. All consumer with the same group.id will consume
         // different partitions.
-        $conf->set('group.id', 'robber');
+        $conf->set('group.id', 'house');
 
         // Initial list of Kafka brokers
         $conf->set('metadata.broker.list', '127.0.0.1');
@@ -78,12 +80,14 @@ class DomainEventConsumerInKafka extends Command implements DomainEventConsumer
                         '<info>Topic: ' . $message->topic_name . '</info>',
                         '<info>Payload: ' . $message->payload . '<info>',
                         '<comment>Timestamp: ' . $message->timestamp . '</comment>',
-                        '================================',
+                        'HOUSE================================',
                     ]);
 
-/*                    DomainEventPublisher::instance()->publish([
+                    var_dump(json_decode($message->payload, true));
+
+                    DomainEventPublisher::instance()->publish([
                         DomainEventFactory::new(json_decode($message->payload, true))
-                    ]);*/
+                    ]);
                     break;
                 case RD_KAFKA_RESP_ERR__PARTITION_EOF:
                     echo "No more messages; will wait for more\n";

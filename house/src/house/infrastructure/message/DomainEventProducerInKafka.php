@@ -1,11 +1,10 @@
 <?php
 
-
 namespace App\house\infrastructure\message;
 
 use RdKafka;
-use App\robber\application\DomainEventProducer;
-use App\robber\domain\DomainEvent;
+use App\house\application\DomainEventProducer;
+use App\house\domain\DomainEvent;
 
 class DomainEventProducerInKafka implements DomainEventProducer
 {
@@ -24,11 +23,12 @@ class DomainEventProducerInKafka implements DomainEventProducer
 
     function produce(DomainEvent $domainEvent): void
     {
+        var_dump($domainEvent->getName());
         $topic = $this->producer
             ->newTopic($domainEvent->getBoundedContextName(). '_' . $domainEvent->getAggregateName());
 
         $topic->produce(RD_KAFKA_PARTITION_UA, 0, json_encode($domainEvent->getData()));
-        $this->producer->poll(0);
+        $this->producer->poll(1);
 
         $result = $this->producer->flush(10000);
         if (RD_KAFKA_RESP_ERR_NO_ERROR === $result) {

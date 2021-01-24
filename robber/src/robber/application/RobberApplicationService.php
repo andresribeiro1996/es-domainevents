@@ -37,12 +37,20 @@ class RobberApplicationService
         $this->robberRepository->store($domainEvents);
     }
 
-    public function createRobber(int $robberId, string $name, int $level)
+    public function createRobber(int $robberId, string $name, int $level): void
     {
         $robber = Robber::new();
         $domainEvents = $robber->processCreateRobber(new CreateRobberCommand($robberId, $name, $level));
 
         DomainEventPublisher::instance()->publish($domainEvents);
         $this->robberRepository->store($domainEvents);
+    }
+
+    public function findRobber(int $robberId): ?Robber {
+        $robber = Robber::new();
+        $eventStream = $this->robberRepository->loadEventStream(new RobberId($robberId));
+        $robber->apply($eventStream);
+
+        return $robber;
     }
 }

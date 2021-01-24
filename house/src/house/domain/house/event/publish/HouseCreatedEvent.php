@@ -16,7 +16,7 @@ class HouseCreatedEvent extends DomainEvent
     public const NAME = 'housecreatedevent';
 
     /**
-     * @var RobberId
+     * @var HouseId
      */
     private $houseId;
 

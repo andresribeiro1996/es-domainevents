@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\robber\infrastructure\message;
 
 use RdKafka;
@@ -28,7 +27,7 @@ class DomainEventProducerInKafka implements DomainEventProducer
             ->newTopic($domainEvent->getBoundedContextName(). '_' . $domainEvent->getAggregateName());
 
         $topic->produce(RD_KAFKA_PARTITION_UA, 0, json_encode($domainEvent->getData()));
-        $this->producer->poll(0);
+        $this->producer->poll(1);
 
         $result = $this->producer->flush(10000);
         if (RD_KAFKA_RESP_ERR_NO_ERROR === $result) {

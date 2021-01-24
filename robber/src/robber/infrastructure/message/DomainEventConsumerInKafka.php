@@ -3,6 +3,8 @@
 namespace App\robber\infrastructure\message;
 
 use App\robber\application\DomainEventConsumer;
+use App\robber\domain\DomainEventFactory;
+use App\robber\DomainEventPublisher;
 use RdKafka;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -33,7 +35,7 @@ class DomainEventConsumerInKafka extends Command implements DomainEventConsumer
 
         // Configure the group.id. All consumer with the same group.id will consume
         // different partitions.
-        $conf->set('group.id', 'robber');
+        $conf->set('group.id', 'robber2');
 
         // Initial list of Kafka brokers
         $conf->set('metadata.broker.list', '127.0.0.1');
@@ -81,9 +83,15 @@ class DomainEventConsumerInKafka extends Command implements DomainEventConsumer
                         '================================',
                     ]);
 
-/*                    DomainEventPublisher::instance()->publish([
+                    $result = json_decode($message->payload, true);
+
+                    if(!$result) {
+                        echo $message->payload .'';
+                        continue;
+                    }
+                    DomainEventPublisher::instance()->publish([
                         DomainEventFactory::new(json_decode($message->payload, true))
-                    ]);*/
+                    ]);
                     break;
                 case RD_KAFKA_RESP_ERR__PARTITION_EOF:
                     echo "No more messages; will wait for more\n";

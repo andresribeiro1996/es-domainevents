@@ -8,7 +8,7 @@ use App\house\domain\DomainEvent;
 
 class AssaultedHouseSucceededEvent extends DomainEvent
 {
-    public const TYPE = 'robber';
+    public const TYPE = 'house';
     public const NAME = 'assaultedhousesucceededevent';
 
     /**
@@ -26,13 +26,19 @@ class AssaultedHouseSucceededEvent extends DomainEvent
      */
     protected $robberLevel;
 
-    public function __construct(int $robberId, int $robberLevel, int $houseMoney)
+    /**
+     * @var int
+     */
+    protected $houseId;
+
+    public function __construct(int $robberId, int $houseId, int $robberLevel, int $houseMoney)
     {
         $this->houseMoney = $houseMoney;
         $this->robberId = $robberId;
         $this->robberLevel = $robberLevel;
+        $this->houseId = $houseId;
 
-        parent::__construct(self::NAME, $robberId, self::TYPE, self::SCOPE_LOCAL);
+        parent::__construct(self::NAME, $houseId, self::TYPE, self::SCOPE_GLOBAL);
     }
 
     public function getData(): array
@@ -41,8 +47,9 @@ class AssaultedHouseSucceededEvent extends DomainEvent
             parent::getData(),
             [
                 'robber_id' => $this->robberId,
+                'house_id' => $this->houseId,
                 'house_money' => $this->houseMoney,
-                'robber_level' => $this->robberLevel
+                'robber_level' => $this->robberLevel,
             ]
         );
     }
@@ -60,5 +67,10 @@ class AssaultedHouseSucceededEvent extends DomainEvent
     public function getRobberLevel(): int
     {
         return $this->robberLevel;
+    }
+
+    public function getHouseId():int
+    {
+        return $this->houseId;
     }
 }

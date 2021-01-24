@@ -13,6 +13,7 @@ class DomainEventFactory
         $eventName = $eventData['event_name'];
         switch ($eventName) {
             case 'assaultedhouseevent' :
+                var_dump($eventName);
                 return new AssaultedHouseEvent(
                     $eventData['robber_id'],
                     $eventData['robber_level'],

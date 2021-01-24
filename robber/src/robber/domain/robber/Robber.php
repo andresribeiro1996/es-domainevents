@@ -3,10 +3,12 @@ namespace App\robber\domain\robber;
 
 use App\robber\domain\AggregateRoot;
 use App\robber\domain\DomainEvent;
+use App\robber\domain\robber\command\AssaultedHouseSucceededCommand;
 use App\robber\domain\robber\command\AssaultHouseCommand;
 use App\robber\domain\robber\command\CreateRobberCommand;
 use App\robber\domain\robber\event\publish\AssaultedHouseEvent;
 use App\robber\domain\robber\event\publish\RobberCreatedEvent;
+use App\robber\domain\robber\event\subscribe\AssaultedHouseSucceededEvent;
 
 /**
  * @extends AggregateRoot<Robber, RobberId>
@@ -33,6 +35,15 @@ class Robber extends AggregateRoot
      */
     private $assaultedHouses;
 
+    /**
+     * @var int
+     */
+    private $collectedMoney;
+
+    public function __constructor() {
+
+    }
+
     public static function new(): Robber {
         return new self();
     }
@@ -40,6 +51,14 @@ class Robber extends AggregateRoot
     public function getId(): RobberId
     {
         return $this->robberId;
+    }
+
+    public function getAssaultHouses(): array
+    {
+        if(!$this->assaultedHouses) {
+            return [];
+        }
+        return $this->assaultedHouses;
     }
 
     /**
@@ -76,15 +95,37 @@ class Robber extends AggregateRoot
         ];
     }
 
+    /**
+     * @param AssaultedHouseSucceededCommand $command
+     * @return DomainEvent[]
+     */
+    public function processAssaultedHouseSucceededEvent(AssaultedHouseSucceededCommand $command): array
+    {
+        return [
+            new AssaultedHouseSucceededEvent(
+                $command->getRobberId(),
+                $command->getHouseId(),
+                $command->getRobberLevel(),
+                $command->getHouseMoney()
+            )
+        ];
+    }
+
+
     public function processCreateRobber(CreateRobberCommand $command): array
     {
         return [new RobberCreatedEvent($command->getId(), $command->getLevel(), $command->getName())];
     }
 
-    public function applyAssaultedHouseEvent(AssaultedHouseEvent $event)
+    public function applyAssaultedHouseSucceededEvent(AssaultedHouseSucceededEvent $event): void
     {
         $this->increaseLevel();
         $this->addAssaultedHouse($event->getHouseId());
+        $this->increaseCollectedMoney($event->getHouseMoney());
+    }
+
+    public function applyAssaultedHouseEvent(AssaultedHouseEvent $event): void
+    {
     }
 
     public function applyRobberCreatedEvent(RobberCreatedEvent $event): void
@@ -100,6 +141,12 @@ class Robber extends AggregateRoot
     public function getName(): string
     {
         return $this->name;
+    }
+
+    private function increaseCollectedMoney(int $moneyCollected): int
+    {
+        $this->collectedMoney += $moneyCollected;
+        return $this->collectedMoney;
     }
 }
 

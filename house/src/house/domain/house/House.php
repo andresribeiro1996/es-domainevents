@@ -102,18 +102,18 @@ class House extends AggregateRoot {
      */
     public function processAssault(int $robberId, int $level): array
     {
-        if($this->money > 1500) {
+        if($this->money->getAmount() > 1500) {
             return [new AssaultedHouseFailedEvent($robberId)];
         }
 
-        return [new AssaultedHouseSucceededEvent($robberId, $level, $this->money->getAmount())];
+        return [new AssaultedHouseSucceededEvent($robberId, $this->houseId->id(), $level, $this->money->getAmount())];
     }
 
     public function applyAssaultedHouseSucceededEvent(AssaultedHouseSucceededEvent $event): void
     {
         $percentageToRob = $event->getRobberLevel() * 10;
         $amount = $this->money->getAmount();
-        $this->money = new Money((int)($amount - ($amount * ($percentageToRob/100))));
+        $this->money = new Money((int)($amount - ($amount * ($percentageToRob / 100))));
         $this->robbers[] = $event->getRobberId();
     }
 

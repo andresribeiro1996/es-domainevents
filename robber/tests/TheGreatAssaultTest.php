@@ -27,12 +27,6 @@ class TheGreatAssaultTest extends TestCase
 
     protected function setUp(): void
     {
-        // House Bounded Context
-        $this->houseRepository = new HouseRepositoryInMemory();
-        $this->houseSubscriber = new HouseSubscriber($this->houseRepository);
-        $this->houseService = new HouseApplicationService($this->houseRepository);
-
-        DomainEventPublisher::instance()->addSubscriber($this->houseSubscriber); // Subscriber of global events
 
         // Robber Bounded Context
         $this->robberRepository = new RobberRepositoryInMemory();
