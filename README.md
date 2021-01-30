@@ -31,18 +31,18 @@ The project is implemented in memory but design as if they were 3 distinct appli
 
 ## Use cases:
   
-  House:
+- House:
     - Create house
     - Notify police station (not implemented)
     
-  Police: (not implemented)
+- Police: (not implemented)
     - Intervene (not implemented)
     
-  Robber:
+- Robber:
     - Create robber
     - Assault house
     
-  Journal:
+- Journal:
     - Publish assaults based on some algorithm or intelligence (not implemented)
      
     
