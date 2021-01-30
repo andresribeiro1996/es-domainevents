@@ -1,7 +1,6 @@
 #!/usr/bin/env php
 <?php
 // application.php
- sleep(20);
 require __DIR__.'/vendor/autoload.php';
 
 use App\house\application\house\HouseApplicationService;
