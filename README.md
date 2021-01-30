@@ -79,3 +79,15 @@ The project is implemented in memory but design as if they were 3 distinct appli
 - Event scope, difference between global events from local events
 - Event de-decoupling is missing
 - Project structure requires some work
+
+## Docker
+
+### Services
+- ZooKeeper
+- Kafka (Message Broker)
+- Krafdrop (Kafka Client UI)
+- ...
+### Commands
+- Starting containers: `docker-composer up` on `root` project.
+- 
+- Assault: `docker exec robber php app.php domain:assault-house`

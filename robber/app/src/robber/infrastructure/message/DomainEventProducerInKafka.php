@@ -1,10 +1,10 @@
 <?php
 
-namespace App\house\infrastructure\message;
+namespace App\robber\infrastructure\message;
 
 use RdKafka;
-use App\house\application\DomainEventProducer;
-use App\house\domain\DomainEvent;
+use App\robber\application\DomainEventProducer;
+use App\robber\domain\DomainEvent;
 
 class DomainEventProducerInKafka implements DomainEventProducer
 {
@@ -17,13 +17,12 @@ class DomainEventProducerInKafka implements DomainEventProducer
         $conf = new RdKafka\Conf();
         $conf->set('log_level', (string) LOG_DEBUG);
         $conf->set('debug', 'all');
-        $conf->set('metadata.broker.list', 'localhost:9092');
+        $conf->set('metadata.broker.list', 'kafka:29092');
         $this->producer = new RdKafka\Producer($conf);
     }
 
     function produce(DomainEvent $domainEvent): void
     {
-        var_dump($domainEvent->getName());
         $topic = $this->producer
             ->newTopic($domainEvent->getBoundedContextName(). '_' . $domainEvent->getAggregateName());
 

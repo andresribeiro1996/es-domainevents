@@ -38,7 +38,7 @@ class DomainEventConsumerInKafka extends Command implements DomainEventConsumer
         $conf->set('group.id', 'robber2');
 
         // Initial list of Kafka brokers
-        $conf->set('metadata.broker.list', '127.0.0.1');
+        $conf->set('metadata.broker.list', 'kafka:29092');
 
         // Set where to start consuming messages when there is no initial offset in
         // offset store or the desired offset is out of range.

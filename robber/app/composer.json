@@ -6,7 +6,7 @@
         "symfony/event-dispatcher": "^5.1",
         "vimeo/psalm": "^3.13",
         "ramsey/uuid": "^4.1",
-      "ext-json": "*",
+        "ext-json": "*",
         "phpunit/phpunit": "^8.5",
         "kwn/php-rdkafka-stubs": "^2.0",
         "amphp/amp": "^2.5",
