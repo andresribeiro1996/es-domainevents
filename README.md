@@ -70,7 +70,7 @@ The project is implemented in memory but design as if they were 3 distinct appli
 | 2.3.1         | ArrestedEvent        | RobberService       | arrestedEvent()       |  -| 
 | 2.3.2         | EscapedEvent        | RobberService        | escapedEvent()       |  -| 
 
-## Services Interaction Diagram
+# Services Interaction Diagram
 ![services-interaction](./docs/services-interaction.jpg)
 ## Questions
 - Event versioning
