@@ -17,7 +17,7 @@ class DomainEventProducerInKafka implements DomainEventProducer
         $conf = new RdKafka\Conf();
         $conf->set('log_level', (string) LOG_DEBUG);
         $conf->set('debug', 'all');
-        $conf->set('metadata.broker.list', 'kafka:29092');
+        $conf->set('metadata.broker.list', getenv('KAFKA_URL'));
         $this->producer = new RdKafka\Producer($conf);
     }
 

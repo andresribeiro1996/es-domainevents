@@ -39,7 +39,7 @@ class NarratorConsumer
         $conf->set('group.id', 'narrator');
 
         // Initial list of Kafka brokers
-        $conf->set('metadata.broker.list', 'kafka:29092');
+        $conf->set('metadata.broker.list', getenv('KAFKA_HOST'));
 
         // Set where to start consuming messages when there is no initial offset in
         // offset store or the desired offset is out of range.
