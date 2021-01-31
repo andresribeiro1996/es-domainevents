@@ -3,7 +3,6 @@
 namespace Narrator\application;
 
 use Narrator\domain\NarratorEvent;
-use Narrator\domain\OrganismEvent;
 use RdKafka;
 use RdKafka\KafkaConsumer;
 use React\EventLoop\Factory;

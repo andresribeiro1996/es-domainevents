@@ -5,37 +5,68 @@ services:
     image: es-domain-events/php:robber
     hostname: "robber"
     build:
-      context: ./robber/php
+      context: ./robber/docker
     container_name: robber
     networks:
       - broker-kafka
-    restart: on-failure
+    restart: unless-stopped
     volumes:
       - ./robber/app:/app
     env_file:
-    - ./robber/dev.env
+      - ./robber/dev.env
   house:
     image: es-domain-events/php:house
     hostname: "house"
     build:
-      context: ./house/php
+      context: ./house/docker
     networks:
       - broker-kafka
     container_name: house
-    restart: on-failure
+    restart: unless-stopped
     volumes:
       - ./house/app:/app
+
+  narrator:
+    image: es-domain-events/php:narrator
+    hostname: "narrator"
+    build:
+      context: ./narrator/docker
+    networks:
+      - broker-kafka
+    container_name: narrator
+    restart: unless-stopped
+    volumes:
+      - ./narrator/app:/app
     env_file:
-    - ./house/dev.env
+      - ./narrator/dev.env
+      
+  hub:
+    image: es-domain-events/php:hub
+    hostname: "hub"
+    build:
+      context: ./hub/docker
+    networks:
+      - broker-kafka
+    container_name: hub
+    restart: unless-stopped
+    volumes:
+      - ./hub/app:/app
+    env_file:
+      - ./hub/dev.env
+      
   zookeeper:
     image: confluentinc/cp-zookeeper:latest
+    hostname: 'zookeeper'
+    container_name: 'es-zookeeper'
     networks:
       - broker-kafka
     env_file:
-    - dev.env
+      - dev.env
 
   kafka:
     image: confluentinc/cp-kafka:latest
+    hostname: 'kafka'
+    container_name: 'es-kafka'
     networks:
       - broker-kafka
     depends_on:
@@ -54,7 +85,7 @@ services:
     ports:
       - 19000:9000
     env_file:
-    - dev.env
+      - dev.env
 
 networks:
   broker-kafka:
