@@ -3,7 +3,6 @@ FROM php:7.2.28-fpm-alpine3.10
 RUN docker-php-ext-install mysqli pdo pdo_mysql \
     && docker-php-ext-enable pdo_mysql
 
-
 RUN apk add --no-cache pcre-dev $PHPIZE_DEPS \
     && pecl install redis xdebug-2.9.2 mbstring \
     && docker-php-ext-enable redis.so
@@ -75,6 +74,8 @@ WORKDIR /app
 RUN chown -R www-data:www-data /app
 
 RUN chmod 777 /var/log
+
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 ENTRYPOINT ["docker-entrypoint.sh"]
 

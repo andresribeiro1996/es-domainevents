@@ -2,30 +2,56 @@ version: "3.4"
 
 services:
   robber:
-    image: es-domain-events/php:robber
+    image: es-domain-events/robber/docker:robber
     hostname: "robber"
     build:
-      context: ./robber/php
+      context: ./robber/docker
     container_name: robber
     networks:
       - broker-kafka
-    restart: on-failure
+    restart: unless-stopped
     volumes:
       - ./robber/app:/app
   house:
-    image: es-domain-events/php:house
+    image: es-domain-events/house/docker:house
     hostname: "house"
     build:
-      context: ./house/php
+      context: ./house/docker
     networks:
       - broker-kafka
     container_name: house
-    restart: on-failure
+    restart: unless-stopped
     volumes:
       - ./house/app:/app
 
+  narrator:
+    image: es-domain-events/narrator/docker:narrator
+    hostname: "narrator"
+    build:
+      context: ./narrator/docker
+    networks:
+      - broker-kafka
+    container_name: narrator
+    restart: unless-stopped
+    volumes:
+      - ./narrator/app:/app
+
+  hub:
+    image: es-domain-events/hub/docker:hub
+    hostname: "narrator"
+    build:
+      context: ./hub/docker
+    networks:
+      - broker-kafka
+    container_name: hub
+    restart: unless-stopped
+    volumes:
+      - ./hub/app:/app
+
   zookeeper:
     image: confluentinc/cp-zookeeper:latest
+    hostname: 'zookeeper'
+    container_name: 'es-zookeeper'
     networks:
       - broker-kafka
     environment:
@@ -34,6 +60,8 @@ services:
 
   kafka:
     image: confluentinc/cp-kafka:latest
+    hostname: 'kafka'
+    container_name: 'es-kafka'
     networks:
       - broker-kafka
     depends_on:
@@ -48,8 +76,11 @@ services:
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
 
+
   kafdrop:
     image: obsidiandynamics/kafdrop:latest
+    hostname: 'kafdrop'
+    container_name: 'es-kafdrop'
     networks:
       - broker-kafka
     depends_on:
