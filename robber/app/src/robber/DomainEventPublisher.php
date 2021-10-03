@@ -5,7 +5,7 @@ namespace App\robber;
 use App\robber\application\EventForwardingService;
 use App\robber\domain\DomainEvent;
 use App\robber\domain\PublishedGlobalEvent;
-use App\robber\infrastructure\message\DomainEventProducerInKafka;
+use App\robber\infrastructure\port\message\DomainEventProducerInKafka;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 

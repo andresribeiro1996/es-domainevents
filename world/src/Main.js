@@ -23,9 +23,9 @@ export default class Main extends Component {
      * This function establishes the connect with the websocket and also ensures constant reconnection if connection closes
      */
     connect = () => {
-        var ws = new WebSocket("ws://localhost:8083");
+        const ws = new WebSocket("ws://localhost:8083");
         let that = this; // cache the this
-        var connectInterval;
+        let connectInterval;
 
         // websocket onopen event listener
         ws.onopen = () => {
@@ -68,7 +68,7 @@ export default class Main extends Component {
      */
     check = () => {
         const { ws } = this.state;
-        if (!ws || ws.readyState == WebSocket.CLOSED) this.connect(); //check if websocket instance is closed, if so call `connect` function.
+        if (!ws || ws.readyState === WebSocket.CLOSED) this.connect(); //check if websocket instance is closed, if so call `connect` function.
     };
 
     render() {

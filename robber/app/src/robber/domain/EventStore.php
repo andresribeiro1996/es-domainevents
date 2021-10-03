@@ -3,6 +3,9 @@
 
 namespace App\robber\domain;
 
+use App\robber\domain\robber\Robber;
+use App\robber\domain\robber\RobberId;
+
 interface EventStore
 {
     /**
@@ -13,6 +16,9 @@ interface EventStore
     /**
      * @param AggregateRootId $id
      * @return DomainEvent[]
+     *
      */
     public function loadEventStream(AggregateRootId $id);
+
+    public function getRobber(RobberId $id): Robber;
 }

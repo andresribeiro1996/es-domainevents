@@ -64,7 +64,7 @@ The project is implemented in memory but design as if they were 3 distinct appli
 | ----------- | ---------------- |-----------  |----------- |----------- 
 | 1           |-            | RobberService    | startAssault()      | AssaultStartedEvent       |
 | 2           | AssaultStartedEvent        | HouseService       | underAssault()       | AssaultSucceededEvent / AssaultFailedEvent / FireAlarmEvent |
-| 2.1           | AssaultSucceededEvent| RobberService       | assaultSuccededEvent()|  -|
+| 2.1           | AssaultSucceededEvent| RobberService       | assaultSucceededEvent()|  -|
 | 2.2           | AssaultFailedEvent   | RobberService       | assaultFailedEvent()  |  -|
 | 2.3           | FireAlarmEvent       | PoliceService       | intervene()           |  ArrestedEvent / EscapedEvent| 
 | 2.3.1         | ArrestedEvent        | RobberService       | arrestedEvent()       |  -| 

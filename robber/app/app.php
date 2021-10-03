@@ -10,7 +10,8 @@ use App\robber\application\robber\RobberSubscriber;
 use App\robber\application\RobberApplicationService;
 use App\robber\DomainEventPublisher;
 use App\robber\infrastructure\inMemory\RobberRepositoryInMemory;
-use App\robber\infrastructure\message\DomainEventConsumerInKafka;
+use App\robber\infrastructure\port\message\DomainEventConsumerInKafka;
+use Doctrine\DBAL\DriverManager;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\CommandLoader\ContainerCommandLoader;
 use Symfony\Component\Console\CommandLoader\FactoryCommandLoader;
@@ -25,6 +26,16 @@ $commandLoader = new ContainerCommandLoader($containerBuilder, [
 ]);*/
 
 // Robber Bounded Context - Dependencies
+$connectionParams = [
+    'dbname' => getenv('mysql_database'),
+    'user' => getenv('mysql_user'),
+    'password' => getenv('mysql_password'),
+    'host' => getenv('mysql_host'),
+    'driver' => 'pdo_mysql',
+];
+$connection = DriverManager::getConnection($connectionParams);
+
+
 $robberRepository = new RobberRepositoryInMemory();
 $robberService = new RobberApplicationService($robberRepository);
 $robberSubscriber = new RobberSubscriber($robberRepository);

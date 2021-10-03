@@ -16,10 +16,6 @@ class RobberApplicationService
      */
     private $robberRepository;
 
-    /**
-     * RobberApplicationService constructor.
-     * @param $robberRepository
-     */
     public function __construct(RobberRepository $robberRepository)
     {
         $this->robberRepository = $robberRepository;
@@ -47,10 +43,6 @@ class RobberApplicationService
     }
 
     public function findRobber(int $robberId): ?Robber {
-        $robber = Robber::new();
-        $eventStream = $this->robberRepository->loadEventStream(new RobberId($robberId));
-        $robber->apply($eventStream);
-
-        return $robber;
+        return $this->robberRepository->getRobber(new RobberId($robberId));
     }
 }

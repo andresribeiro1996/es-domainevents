@@ -2,7 +2,7 @@
 
 
 namespace command;
-use App\robber\infrastructure\message\DomainEventConsumerInKafka;
+use App\robber\infrastructure\port\message\DomainEventConsumerInKafka;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Tester\CommandTester;

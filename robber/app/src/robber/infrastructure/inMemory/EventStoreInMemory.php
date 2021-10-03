@@ -5,6 +5,8 @@ namespace App\robber\infrastructure\inMemory;
 
 use App\robber\domain\AggregateRootId;
 use App\robber\domain\DomainEvent;
+use App\robber\domain\robber\Robber;
+use App\robber\domain\robber\RobberId;
 use App\robber\domain\robber\RobberRepository;
 
 class EventStoreInMemory implements RobberRepository
@@ -25,6 +27,8 @@ class EventStoreInMemory implements RobberRepository
             $this->eventStream = [];
         }
 
+
+
         $this->eventStream = array_merge($this->eventStream, $newEvents);
     }
 
@@ -42,5 +46,14 @@ class EventStoreInMemory implements RobberRepository
         }
 
         return $aggregateEvents;
+    }
+
+    public function getRobber(RobberId $id): Robber
+    {
+        $robberEventStream = $this->loadEventStream($id);
+        $robber = Robber::new();
+        $robber->apply($robberEventStream);
+
+        return $robber;
     }
 }

@@ -1,6 +1,20 @@
 version: "3.4"
 
 services:
+  world:
+    image: es-domain-events/react:world
+    hostname: "world"
+    build:
+      context: ./world
+    container_name: world
+    networks:
+      - broker-kafka
+    restart: unless-stopped
+    volumes:
+      - ./world:/app
+    ports:
+      - 3000:3000
+
   robber:
     image: es-domain-events/php:robber
     hostname: "robber"
@@ -14,6 +28,7 @@ services:
       - ./robber/app:/app
     env_file:
       - ./robber/dev.env
+
   house:
     image: es-domain-events/php:house
     hostname: "house"
@@ -53,7 +68,9 @@ services:
       - ./hub/app:/app
     env_file:
       - ./hub/dev.env
-      
+    ports:
+      - 8083:8083
+
   zookeeper:
     image: confluentinc/cp-zookeeper:latest
     hostname: 'zookeeper'
@@ -86,6 +103,39 @@ services:
       - 19000:9000
     env_file:
       - dev.env
+
+  mysqldb_robber:
+    image: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    hostname: 'mysqldb'
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: 12345
+      MYSQL_PASSWORD: 12345
+      MYSQL_USER: yang
+      MYSQL_DATABASE: robber_db
+
+  mysqldb_house:
+    image: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    hostname: 'mysqldb'
+    ports:
+      - 3307:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: 12345
+      MYSQL_PASSWORD: 12345
+      MYSQL_USER: yang
+      MYSQL_DATABASE: house_db
+
+  adminer:
+    image: adminer
+    hostname: 'adminer'
+    restart: always
+    ports:
+      - 8090:8090
 
 networks:
   broker-kafka:

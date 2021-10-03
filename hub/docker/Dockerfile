@@ -81,6 +81,6 @@ ENTRYPOINT ["docker-entrypoint.sh"]
 
 VOLUME [ "/app" ]
 
-EXPOSE 9000
+EXPOSE 8083
 
 CMD ["php-fpm"]
