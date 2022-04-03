@@ -30,12 +30,16 @@ export default class Main extends Component {
         // websocket onopen event listener
         ws.onopen = () => {
             console.log("connected websocket main component");
-
+            ws.send('hello, im here');
             this.setState({ ws: ws });
 
             that.timeout = 250; // reset timer to 250 on open of websocket connection
             clearTimeout(connectInterval); // clear Interval on on open of websocket connection
         };
+
+        ws.onmessage = ($message) => {
+            console.log($message)
+        }
 
         // websocket onclose event listener
         ws.onclose = e => {

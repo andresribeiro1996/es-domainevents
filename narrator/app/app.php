@@ -6,4 +6,4 @@ require __DIR__ . '/vendor/autoload.php';
 
 use Narrator\application\NarratorService;
 
-$narratorService = new NarratorService();
+$narratorService = new NarratorService(true);

@@ -24,4 +24,9 @@ class EventStoreSQL implements EventStore
     {
         // TODO: Implement loadEventStream() method.
     }
+
+    public function getRobber(\App\robber\domain\robber\RobberId $id): \App\robber\domain\robber\Robber
+    {
+        // TODO: Implement getRobber() method.
+    }
 }

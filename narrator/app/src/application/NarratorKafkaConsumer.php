@@ -14,7 +14,7 @@ use React\Socket\Connector;
  * This class is responsible to make connection between message broker and a websocket
  * It consumes a kafka and sends it to a websocket
  */
-class NarratorConsumer
+class NarratorKafkaConsumer implements Consumer
 {
     protected static $defaultName = 'kafka:organism-consumer';
 

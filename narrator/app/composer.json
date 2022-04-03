@@ -16,6 +16,8 @@
         "psr/container": "^1.0",
         "symfony/dependency-injection": "^5.2",
         "symfony/framework-bundle": "^5.2",
-        "cboden/ratchet": "^0.4.3"
+        "cboden/ratchet": "^0.4.3",
+        "ratchet/pawl": "^0.4.1",
+        "textalk/websocket": "^1.5"
     }
 }

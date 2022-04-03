@@ -9,7 +9,7 @@ class Hub implements MessageComponentInterface {
     protected $clients;
 
     public function __construct() {
-        echo 'Opened gateway';
+        echo "Opened websocket gateway\n\n";
         $this->clients = new \SplObjectStorage;
     }
 
@@ -22,8 +22,6 @@ class Hub implements MessageComponentInterface {
 
     public function onMessage(ConnectionInterface $from, $msg) {
         $numRecv = count($this->clients) - 1;
-        echo sprintf('Connection %d sending message "%s" to %d other connection%s' . "\n"
-            , $from->resourceId, $msg, $numRecv, $numRecv == 1 ? '' : 's');
 
         foreach ($this->clients as $client) {
             if ($from !== $client) {
@@ -31,6 +29,9 @@ class Hub implements MessageComponentInterface {
                 $client->send($msg);
             }
         }
+
+        echo sprintf("Client %d sent message:" . "%s" . "\n", $from->resourceId, $msg);
+        echo sprintf("Number clients listening: " . "%d" . "\n", $numRecv);
     }
 
     public function onClose(ConnectionInterface $conn) {

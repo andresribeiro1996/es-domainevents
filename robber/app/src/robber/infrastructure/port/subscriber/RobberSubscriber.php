@@ -49,8 +49,6 @@ class RobberSubscriber implements EventSubscriberInterface
             $event->getRobberLevel()
         ));
 
-        $robber->apply($resultedEvents);
-
         $this->robberRepository->store($resultedEvents);
     }
 
